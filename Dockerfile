@@ -20,6 +20,7 @@ RUN pnpm --filter sample-lambda build
 
 FROM public.ecr.aws/lambda/nodejs:22 AS sample-lambda
 WORKDIR /var/task
+COPY --from=sample-lambda-builder /app/packages/db/generated/client/libquery_engine-*.so.node /tmp/prisma-engines/
 COPY --from=sample-lambda-builder /app/packages/sample-lambda/dist ./
 COPY --from=sample-lambda-builder /app/packages/sample-lambda/node_modules ./node_modules
 CMD ["index.handler"]
