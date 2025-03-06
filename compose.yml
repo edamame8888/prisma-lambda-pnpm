@@ -1,0 +1,23 @@
+services:
+  sandbox-db:
+    image: postgres:16.7
+    container_name: sandbox
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres-password
+      POSTGRES_DB: sandbox
+      TZ: Asia/Tokyo
+    ports:
+      - "5432:5432"
+    volumes:
+      - sandbox_db_data:/var/lib/postgresql/data
+    networks:
+      - sandbox-network
+
+networks:
+  # The presence of these objects is sufficient to define them
+  sandbox-network: {}
+
+volumes:
+  sandbox_db_data:
+    driver: local
