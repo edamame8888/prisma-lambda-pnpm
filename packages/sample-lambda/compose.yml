@@ -1,0 +1,23 @@
+services:
+  sample-lambda-local:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    environment:
+      DEBUG_LOGGING_ENABLED: true
+    command: ["index.handler"]
+    env_file:
+      - .env
+    restart: always
+    develop:
+      watch:
+        - action: rebuild
+          path: ./**/*.ts
+    ports:
+      - "9000:8080"
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "10"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
